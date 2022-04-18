@@ -1,0 +1,27 @@
+-- create a table
+CREATE TABLE students (
+  id INTEGER PRIMARY KEY,
+  name TEXT NOT NULL,
+  gender TEXT NOT NULL
+);
+
+-- insert some values
+INSERT INTO students VALUES (1, 'A', 'M');
+INSERT INTO students VALUES (2, 'B', 'F');
+INSERT INTO students VALUES (3, 'C', 'M');
+
+-- fetch some values
+SELECT * FROM students WHERE gender = 'F';
+
+-- delete some values
+DELETE FROM students WHERE gender = 'F';
+
+DROP TABLE students;
+
+SELECT SUM(population) FROM city WHERE district='California';
+
+SELECT AVG(population) FROM city WHERE district='California';
+
+SELECT ROUND(AVG(population),0) FROM city;
+
+SELECT SUM(population) FROM city WHERE countrycode='JPN';

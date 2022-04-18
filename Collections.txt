@@ -1,0 +1,90 @@
+import java.util.*;
+
+public class Collections {
+	public static void main(String args[]) {
+		//Synchronised, thread-safe, slower
+		Vector<Integer> vector = new Vector<>(); // increases size by 100% (i.e.doubles)
+		StringBuffer sbf = new StringBuffer();
+		Hashtable<Integer, String> ht = new Hashtable<>(); //no null key or value allowed
+		
+		vector.add(21);
+		vector.add(1579);
+		vector.add(1);
+		vector.add(2);
+		vector.add(3);
+		System.out.println(vector.get(2)); // Retrieves element at specified index
+		System.out.println(vector.remove(1)); // (1579) Element at index 1 is removed and returns removed element
+		System.out.println(vector.toString());
+		System.out.println(vector.remove((int)1)); // Element 1 is removed and returned
+		System.out.println(vector.toString());
+		
+		sbf.append("Apple");
+		sbf.append(" is good");
+		sbf.delete(2,4);
+		System.out.println(sbf.toString());
+		sbf.deleteCharAt(2);
+		System.out.println(sbf.toString());
+		System.out.println(sbf.reverse()); // reverse returns reversed value and also modifies it in the variable
+		System.out.println(sbf.toString());
+		System.out.println(sbf.capacity()); //Prints total current capacity
+		System.out.println(sbf.length()); //Prints current length = number of characters present now
+		
+		
+		ht.put(21, "Apple");
+		ht.put(15, "Mango");
+		ht.put(10, "Banana");
+		for(Integer key:ht.keySet()) {
+			System.out.println(key+" "+ht.get(key));
+		}
+		ht.remove(15);
+		System.out.println(ht.toString());
+		
+		
+		// Asynchronised, not thread-safe, faster
+		List<Integer> al = new ArrayList<>(); // increases size by 50%
+		StringBuilder sbl = new StringBuilder();
+		Map<Integer, String> hm = new HashMap<>(); // 1 null key allowed, many null values allowed
+		
+		
+		sbl.append("Apple");
+		sbl.append(" is good");
+		sbl.delete(2,4);
+		System.out.println(sbl.toString());
+		sbl.deleteCharAt(2);
+		System.out.println(sbl.toString());
+		System.out.println(sbl.reverse()); // reverse returns reversed value and also modifies it in the variable
+		System.out.println(sbl.toString());
+		System.out.println(sbl.capacity()); //Prints total current capacity
+		System.out.println(sbl.length()); //Prints current length = number of characters present now
+		
+		al.add(21);
+		al.add(1579);
+		al.add(1);
+		al.add(2);
+		al.add(3);
+		System.out.println(al.get(2)); // Retrieves element at specified index
+		System.out.println(al.remove(1)); // (1579) Element at index 1 is removed and returns removed element
+		System.out.println(al.toString());
+		System.out.println(al.remove((int)1)); // Element 1 is removed and returned
+		System.out.println(al.toString());
+		
+		
+		hm.put(1, "AB");
+		hm.put(5, "XY");
+		hm.put(7, "apple");
+		for(Integer key:hm.keySet()) {
+			System.out.println(key+" "+hm.get(key));
+		}
+		hm.remove(1);
+		System.out.println(hm.toString());
+		
+		// Using a collection as a value
+		Map<Integer, List<Integer>> hm2 = new HashMap<>();
+		hm2.put(1, new ArrayList<>(Arrays.asList(1,2,3)));
+		hm2.put(2, new ArrayList<>(List.of(100,200,300)));
+		List<Integer> temp=hm2.get(1); // a reference to the hashmap value is returned
+		temp.remove(2);
+		System.out.println(hm2.toString());
+		System.out.println(temp.toString());
+	}
+}

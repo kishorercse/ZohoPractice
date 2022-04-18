@@ -1,0 +1,290 @@
+/*
+The program must accept an integer Q as the input. If the value of Q is 1, then the radius of a circle is passed as the input.
+If the value of Q is 2, then the diameter of a circle is passed as the input. The program must print the area of the circle with the precision up 
+to 2 decimal places as the output.
+*/
+import java.util.*;
+class Circle {
+
+    private double radius; // Encapsulation
+
+    public Circle(int radius) {
+        this.radius = radius;
+    }
+    public Circle(double diameter) { // Constructor overloading
+        this.radius=diameter/2;
+    }
+    public double getArea() {
+        return 22*radius*radius/7;
+    }
+}
+
+public class Hello {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int Q = Integer.parseInt(sc.nextLine().trim());
+        Circle circle = null;
+        if (Q == 1) {
+            int radius = Integer.parseInt(sc.nextLine().trim());
+            circle = new Circle(radius);
+        } else if (Q == 2) {
+            double diameter = Double.parseDouble(sc.nextLine().trim());
+            circle = new Circle(diameter);
+        }
+        System.out.print(String.format("%.2f", circle.getArea()));
+    }
+} 
+
+/*
+A string (with only alphabets) S is passed as input. The program should print the alphabets in the string in descending order. 
+Assume all alphabets will be in lower case.
+
+Example input and output:
+
+If the input is "cake", the output should be "keca"
+If the input is "innovation", the output should be "vtonia" (n or o or i should not be repeated)
+*/
+import java.util.*;
+public class Hello {
+
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        String s=sc.next();
+        int len=s.length();
+        Character arr[]=new Character[len];
+        for(int i=0;i<len;i++) {
+            arr[i] = s.charAt(i);
+        }
+        Set<Character> ts=new TreeSet<>(Arrays.asList(arr)).descendingSet();
+        for (char ch:ts)
+        System.out.print(ch);
+      
+	}
+}
+
+/*
+You are given a square matrix of size N×N. Calculate the sum of the integers present in the two main diagonals.
+*/
+import java.util.*;
+public class Hello {
+
+    public static void main(String[] args) {
+		Scanner sc=new Scanner(System.in);
+		final int N = sc.nextInt(); // Constant Integer
+		int num, sum=0;
+		for(int i=0;i<N;i++) {
+		    for(int j=0;j<N;j++) {
+		        num=sc.nextInt();
+		        if (i==j || i+j==N-1)
+		            sum+=num;
+		    }
+		}
+		System.out.print(sum);
+        
+	}
+}
+
+/*
+The runs scored by two cricket players is passed as input. The program must print the total runs scored by the better player.
+The better player is the player with a higher average. It is not necessary that both the players have played/scored in the same number of matches.
+If both the players have same average, then print the runs scored by the player who has the highest total runs.
+
+Boundary Conditions:
+- The number of matches played for any player will not exceed 20.
+- If a negative value is passed as runs scored, then the program output  must be INVALIDINPUT.
+*/
+import java.util.*;
+public class Hello {
+
+    public static int ArraySum(String arr[]) {
+        int sum=0;
+        for(int index=0;index<arr.length;index++) {
+            int num=Integer.valueOf(arr[index]);
+            if (num<0)
+                return -1;
+            sum+=num;
+        }
+        return sum;
+    }
+    public static void main(String[] args) {
+		Scanner sc=new Scanner(System.in);
+		String p1[] = sc.nextLine().split(" "), p2[] = sc.nextLine().split(" ");
+		int p1Sum=ArraySum(p1), p2Sum=ArraySum(p2);
+		// Static function can call only static functions, variables
+		
+		if (p1Sum == -1 || p2Sum == -1)
+		{
+		    System.out.print("INVALIDINPUT");
+		    return;
+		}
+		int p1Avg=p1Sum/p1.length, p2Avg=p2Sum/p2.length;
+		if (p1Avg > p2Avg) {
+		    System.out.print(p1Sum);
+		}
+		else if (p2Avg > p1Avg) {
+		    System.out.print(p2Sum);
+		}
+		else {
+		    System.out.print(Math.max(p1Sum,p2Sum));
+		}
+
+	}
+}
+
+/*
+Two string values S1 and S2 are passed as input. The program must check if both S1 and S2 contain the same unique set of letters and print YES or NO.
+Assume all the letters (alphabets) are in smaller case.
+*/
+import java.util.*;
+public class Hello {
+
+    public static Set<Character> strToSet(String s) {
+        Set<Character> res = new HashSet<>();
+        for(char ch:s.toCharArray()) {  // For-each loop
+            res.add(ch);
+        }
+        return res;
+    }
+    public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		String s1 = sc.next(), s2 = sc.next();
+		Set<Character> a = strToSet(s1), b=strToSet(s2);
+		if (a.equals(b)) // Compares every element of 2 sets
+		    System.out.print("YES");
+		else
+		    System.out.print("NO");
+
+	}
+}
+
+
+/*
+Two string values S1 and S2 are passed as input. The program must print the count of common characters in the strings S1 and S2.
+*/
+import java.util.*;
+public class Hello {
+
+    public static Map<Character,Integer> countChars(String s) {
+        Map<Character,Integer> m = new HashMap<>();
+        for(char ch: s.toCharArray()) {
+            m.put(ch,m.getOrDefault(ch,0)+1);
+        }
+        return m;
+    }
+    
+    public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		String s1 = sc.next(), s2 = sc.next();
+		Map<Character,Integer> m1 = countChars(s1), m2 = countChars(s2);
+		int count=0;
+		for(char ch:m1.keySet()) {
+		    count+=Math.min(m1.getOrDefault(ch,0),m2.getOrDefault(ch,0));
+		}
+		System.out.print(count);
+
+	}
+}
+
+/*The day corresponding to the first date of a given month is provided as input to the program. Then a specific date D of the month is provided. 
+The program must  print the day (one among MON,TUE, WED, THU, FRI, SAT, SUN) of the date D.
+*/
+import java.util.*;
+public class Hello {
+
+    public static void main(String[] args) {
+		List<String> list=Arrays.asList(new String[]{"MON","TUE","WED","THU","FRI","SAT","SUN"});
+		Scanner sc = new Scanner(System.in);
+	    int firstDayIndex = list.indexOf(sc.next());
+		int n = (firstDayIndex + sc.nextInt() - 1) % 7;
+		System.out.print(list.get(n));
+
+	}
+}
+/*
+
+In a shop, discounts were provided as below.
+- If the label price of an item is more than Rs.400, then the discount is 20%.
+- If the label price of an item is more than Rs.500, then the discount is 25%.
+- If the label price of an item was more than or equal to Rs.1000, then the discount is 50%.
+- Finally if the total purchase amount after discount is more than Rs.2000 a further discount of Rs.100 is provided.
+
+The label prices of the items purchased will be provided as input. The program has to calculate the final price payable by the buyer (customer).
+*/
+
+import java.util.*;
+public class Hello {
+
+    public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int n=sc.nextInt();
+		double sum=0;
+		for(int i=1;i<=n;i++) {
+		    double price = sc.nextDouble(), discount=0;
+		    if (price >= 1000) {
+		        discount = price/2;
+		    }
+		    else if (price > 500) {
+		        discount=price/4;
+		    }
+		    else if (price > 400) {
+		        discount=price/5;
+		    }
+		    sum+=price-discount;
+		}
+		if (sum>2000)
+		    sum-=100;
+		System.out.printf("%.2f",sum);
+
+	}
+}
+
+/*
+A pair of numbers (X and Y) will be passed as input. The program must reverse the numbers and find the sum S. Then the sum S must be reversed and printed as output.
+
+- If any leading zeroes are obtained while reversing any of the numerical values they should be discarded.
+*/
+import java.util.*;
+public class Hello {
+
+    public static int reverse(int n) {
+        int res=0;
+        while(n > 0) {
+            res = res*10 + n%10;
+            n/=10;
+        }
+        return res;
+    }
+    public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int x = reverse(sc.nextInt()), y = reverse(sc.nextInt());
+		System.out.print(reverse(x+y));
+	}
+}
+
+/*
+Simon wishes to convert lower case alphabets to upper case and vice versa. Help Simon by writing a program which will accept a string value S as input and 
+toggle the case of the alphabets. Numbers and special characters remain unchanged.
+*/
+import java.util.*;
+public class Hello {
+
+    public static void main(String[] args) {
+		String s = (new Scanner(System.in)).nextLine(), res="";
+		for(char ch:s.toCharArray()) {
+		    if (Character.isLetter(ch)) {
+		        if (Character.isUpperCase(ch)) {
+		            res+=Character.toLowerCase(ch);
+		        }
+		        else {
+		            res+=Character.toUpperCase(ch);
+		        }
+		    }
+		    else {
+		        res+=ch;
+		    }
+		}
+		System.out.print(res);
+
+	}
+}

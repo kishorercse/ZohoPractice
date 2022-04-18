@@ -1,0 +1,62 @@
+import java.util.*;
+abstract class Shape {  
+	private String color; // Encapsulation
+	public abstract double area();
+	public abstract String toString(); //Abstraction
+	
+	public Shape(String color) {
+		this.color=color;
+		System.out.println("Shape");
+	}
+	public String getColor() {
+		return color;
+	}
+}
+
+class Circle extends Shape {  //Inheritance
+	private double radius; // Encapsulation
+	
+	public Circle(String color, double radius) {
+		super(color);
+		this.radius=radius;
+		System.out.println("Circle");
+	}
+	@Override 
+	public double area() { // Run-time polymorphism - Method overriding
+		return Math.PI * Math.pow(radius, 2);
+	}
+	@Override 
+	public String toString() {
+		return super.getColor()+" Circle with area: "+area();
+	}
+}
+
+class Rectangle extends Shape {
+	private double length, width;
+	
+	public Rectangle(String color, double length, double width) {
+		super(color);
+		this.length=length;
+		this.width=width;
+		System.out.println("Rectangle");
+	}
+	
+	@Override 
+	public double area() { // Run-time polymorphism - Method overriding
+		return length * width;
+	}
+	
+	@Override
+	public String toString() {
+		return super.getColor()+" Rectangle with area: "+area();
+	}
+}
+
+public class oops {
+	public static void main(String args[]) {
+		Shape a=new Circle("Red", 5);
+		Shape b=new Rectangle("Blue", 5, 8);
+		System.out.println(a.toString());
+		System.out.println(b.toString());
+	}
+}

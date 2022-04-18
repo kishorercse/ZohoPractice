@@ -1,0 +1,49 @@
+import java.util.*;
+public class Sets {
+	public static void main(String arsg[]) {
+		Set<Integer> hs1 = new HashSet<>();
+		Set<Integer> hs2 = new HashSet<>();
+			
+		hs1.add(5);
+		hs1.add(12);
+		hs1.add(21);
+		hs1.add(5);
+		hs2.add(1);
+		hs2.add(12);
+		hs2.add(9);
+		
+		Set<Integer> union = new HashSet<>(hs1);
+		union.addAll(hs2); // union = hs1 union hs2 (returns true if union set is modified)
+		System.out.println(union);
+		
+		Set<Integer> intersection = new HashSet<>(hs1);
+		System.out.println(intersection.retainAll(hs2)); // intersection = hs1 intersection hs2 (returns true if intersection set is modified)
+		System.out.println(intersection);	
+		
+		Set<Integer> diff = new HashSet<>(hs1);
+		System.out.println(diff.removeAll(hs2)); // diff = hs1 - hs2 (returns true if diff set is modified)
+		System.out.println(diff);
+		
+		System.out.println(union.contains(21));
+		System.out.println(union.remove(21)); // returns true if removed
+		
+		Iterator<Integer> it = hs1.iterator();
+		while(it.hasNext())
+			System.out.print(it.next()+" ");
+		System.out.println();
+		Set<Integer> ls = new LinkedHashSet<>();
+		ls.add(10);
+		ls.add(2);
+		ls.add(4);
+		ls.add(6);
+		ls.add(8);
+		System.out.println(ls); // Order is retained
+		
+		Set<Integer> ts = new TreeSet<>(); // Elements are sorted
+		ts.add(11);
+		ts.add(8);
+		ts.add(20);
+		ts.add(5);
+		System.out.println(ts); 
+	}
+}

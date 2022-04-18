@@ -1,0 +1,456 @@
+/*
+The runs scored by a batsman for N balls are passed as the input to the program. An integer M and M indices are also passed as the input. The program must remove all the elements 
+present at the given indices. Finally, the program prints the total score(after removal).
+*/
+import java.util.*;
+
+public class Hello {
+
+    static int size = 0, MAX = 1000;
+    static int list[] = new int[MAX];
+    static void removeAt(int index)
+    {
+        while(index < size) {
+            list[index] = list[index+1];
+            index++;
+        }
+        size--;
+    }    
+
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N, counter, M, indexToRemove;
+        int totalScore = 0, score, index;
+        N = sc.nextInt();
+        for (index = 0; index < N; index++) {
+            list[index] = sc.nextInt();
+            size++;
+        }
+        M = sc.nextInt();
+        for (counter = 1; counter <= M; counter++) {
+            indexToRemove = sc.nextInt();
+            removeAt(indexToRemove);
+        }
+        for (index = 0; index < size; index++) {
+            totalScore += list[index];
+        }
+        System.out.println(totalScore);
+    }
+}
+
+/*
+The program must accept N integers as the input. The program must append an integer to the list if the integer is even. Else the program must prepend the integer to the list. 
+Finally, the program must print the list.
+*/
+import java.util.*;
+
+public class Hello {
+
+    static int size = 0, MAX = 1000;
+    static int array[] = new int[MAX];
+
+    private static void append(int val) {
+        array[size++] = val;
+    }
+
+    private static void prepend(int val) {
+        for (int index = size; index > 0; index--) {
+            array[index] = array[index - 1];
+        }
+        array[0] = val;
+        size++;
+    }
+
+    private static int getSize() {
+        return size;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        for(int ctr=1;ctr<=N;ctr++) {
+           int num = sc.nextInt();
+           if (num%2==0) {
+               append(num);
+           }
+           else {
+               prepend(num);
+           }
+        }
+       
+
+
+        if(getSize() == 0) {
+            System.out.println("List is not formed\n");
+            return;
+        }
+        for (int index = 0; index < getSize(); index++) {
+            System.out.print(array[index] + " ");
+        }
+    }
+}
+
+
+/*
+The program must accept N integers as input. If the integer M (in N integers) is even then the program must remove the first M integers from the list. Else if the integer M is odd then 
+the program must append the integer M to the list.
+*/
+import java.util.*;
+
+public class Hello {
+
+    static int size = 0, MAX = 1000;
+    static int arr[] = new int[MAX];
+
+    private static void append(int val) {
+        arr[size++] = val;
+    }
+
+    private static void removeValues(int num) {
+        int index = 0, val = num;
+        while (num-- > 0) {
+            arr[index++] = arr[val++];
+            size--;
+        }
+    }
+
+    private static int getSize() {
+        return size;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        for(int ctr=1;ctr<=N;ctr++) {
+           int num = sc.nextInt();
+           if (num%2==0) {
+               append(num);
+           }
+           else {
+               prepend(num);
+           }
+        }
+       
+        for (int index = 0; index < getSize(); index++) {
+            System.out.print(arr[index] + " ");
+        }
+    }
+}
+
+/*
+The program must accept N integer as input. The program must remove the integers in the list if three consecutive odd integers or three consecutive even integers are given as input. 
+Else the program must append the integers in the list. Finally, the program must print the values in the list. 
+*/
+import java.util.*;
+
+public class Hello {
+
+    static int size = 0, MAX = 1000;
+    static int arr[] = new int[MAX];
+
+    private static void append(int val) {
+        arr[size++] = val;
+    }
+
+    private static void removeLast() {
+        size--;
+    }
+
+    private static int getSize() {
+        return size;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt(), odd = 0, even = 0, index;
+        for(index=0;index<N;index++) {
+            int m = sc.nextInt();
+            if (m%2==0) {
+              even++;
+              odd=0;
+            }
+            else {
+              odd++;
+              even=0;
+            }
+            if (odd==3 || even==3) {
+              removeLast();
+              removeLast();
+              odd = even = 0;
+            }
+            else {
+              append(m);
+            }
+        }          
+
+        for (index = 0; index < getSize(); index++) {
+            System.out.print(arr[index] + " ");
+        }
+    }
+}
+
+/*
+N prices in an invoice are given as input. The program must add the prices to the list at it's end and print the list.
+*/
+import java.util.*;
+
+class Invoice {
+    int price;
+    Invoice next = null;
+}
+class SinglyLinkedList {
+    Invoice head = null, tail = null;
+    void append(int data) {
+        Invoice newNode = new Invoice();
+        newNode.price=data;
+        if (head==null) {
+            head = tail =newNode;
+        }
+        else {
+            tail.next = newNode;
+            tail = newNode;
+        }
+    }
+}
+
+class Hello {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N, counter, price;
+        N = sc.nextInt();
+        SinglyLinkedList sll = new SinglyLinkedList();
+        for (counter = 1; counter <= N; counter++) {
+            price = sc.nextInt();
+            sll.append(price);
+        }
+        Invoice invoice = sll.head;
+        while (invoice != sll.tail) {
+            System.out.print(invoice.price + "->");
+            invoice = invoice.next;
+        }
+        System.out.println(invoice.price + "->NULL");
+    } 
+}
+
+/*
+N prices in an invoice are given as input. The program must add the prices to the list at the beginning of the list and print them.
+*/
+import java.util.*;
+
+class Invoice {
+    int price;
+    Invoice next = null;
+}
+
+class SinglyLinkedList {
+    Invoice head = null, tail = null;
+    void prepend(int data) {
+        Invoice newNode = new Invoice();
+        newNode.price = data;
+        if (head==null) {
+            head = tail =newNode;
+        }
+        else {
+            newNode.next = head;
+            head = newNode;
+        }
+    }
+}
+
+class Hello {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N, counter, price;
+        N = sc.nextInt();
+        SinglyLinkedList sll = new SinglyLinkedList();
+        for (counter = 1; counter <= N; counter++) {
+            price = sc.nextInt();
+            sll.prepend(price);
+        }
+        Invoice invoice = sll.head;
+        while (invoice != sll.tail) {
+            System.out.print(invoice.price + "->");
+            invoice = invoice.next;
+        }
+        System.out.println(invoice.price + "->NULL");
+    } 
+}
+
+/*
+N prices in an invoice are given as input. The program must add the prices to the list. An integer M and M positions are also passed as input. 
+The program must remove the elements present at the given positions and finally print the linked list.
+*/
+import java.util.*;
+
+class Invoice {
+    int price;
+    Invoice next;
+}
+class SinglyLinkedList {
+    Invoice head = null, tail = null;
+    void append(int data) {
+        Invoice newNode = new Invoice();
+        newNode.price = data;
+        if (head == null) {
+            head = tail = newNode;
+        }
+        else {
+            tail.next = newNode;
+            tail = newNode;
+        }
+    }
+    void removeAt(int position) {
+        Invoice node = head;
+        if (position == 1) {
+            head=head.next;
+            return;
+        }
+        while (node!=null && position > 2){
+            node = node.next;
+            position--;
+        }
+        
+        node.next = node.next.next;
+        if (node.next == null) {
+            tail=node;
+        }
+    }
+}
+
+class Hello {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N, counter, price, position;
+        N = sc.nextInt();
+        SinglyLinkedList sll = new SinglyLinkedList();
+        for (counter = 1; counter <= N; counter++) {
+            price = sc.nextInt();
+            sll.append(price);
+        }
+        int M = sc.nextInt();
+        while (M-- > 0) {
+            position = sc.nextInt();
+            sll.removeAt(position);
+        }
+        Invoice invoice = sll.head;
+        while (invoice != sll.tail) {
+            System.out.print(invoice.price + "->");
+            invoice = invoice.next;
+        }
+        System.out.println(invoice.price + "->NULL");
+    } 
+}
+
+/*
+N prices in an invoice are given as input. The program must add the prices to the list at it's end and print the list in forward order and reverse order.
+*/
+import java.util.*;
+
+class Invoice {
+    int price;
+    Invoice prev = null, next = null;
+}
+
+class DoublyLinkedList {
+    Invoice head = null, tail = null;
+    void append(int data) {
+        Invoice newNode = new Invoice();
+        newNode.price = data;
+        if (head == null) {
+            head = tail = newNode;
+        }
+        else {
+            if (tail!=null) {
+                newNode.prev=tail;
+                tail.next=newNode;
+            }
+            tail=newNode;
+        }
+    }
+}
+
+class Hello {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N, counter, price;
+        N = sc.nextInt();
+        DoublyLinkedList dll = new DoublyLinkedList();
+        for (counter = 1; counter <= N; counter++) {
+            price = sc.nextInt();
+            dll.append(price);
+        }
+        
+        Invoice invoice = dll.head;
+        while (invoice != dll.tail) {
+            System.out.print(invoice.price + " ");
+            invoice = invoice.next;
+        }
+        System.out.println(invoice.price);
+
+        invoice = dll.tail;
+        while (invoice != dll.head) {
+            System.out.print(invoice.price + " ");
+            invoice = invoice.prev;
+        }
+        System.out.println(invoice.price);
+    }
+}
+
+/*
+N prices in an invoice are given as input. The program must add the prices to the list at the beginning of the list and print them in forward order and reverse order.
+*/
+import java.util.*;
+
+class Invoice {
+    int price;
+    Invoice prev = null, next = null;
+}
+
+class DoublyLinkedList {
+    Invoice head = null, tail = null;
+    void prepend(int data) {
+        Invoice newNode = new Invoice();
+        newNode.price = data;
+        if (head==null) {
+            head = tail = newNode;
+        }
+        else {
+            newNode.next=head;
+            head.prev=newNode;
+            head=newNode;
+        }
+    }
+}
+
+class Hello {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N, counter, price;
+        N = sc.nextInt();
+        DoublyLinkedList dll = new DoublyLinkedList();
+        for (counter = 1; counter <= N; counter++) {
+            price = sc.nextInt();
+            dll.prepend(price);
+        }
+
+        Invoice invoice = dll.head;
+        while (invoice != dll.tail) {
+            System.out.print(invoice.price + " ");
+            invoice = invoice.next;
+        }
+        System.out.println(invoice.price);
+
+        invoice = dll.tail;
+        while (invoice != dll.head) {
+            System.out.print(invoice.price + " ");
+            invoice = invoice.prev;
+        }
+        System.out.println(invoice.price);
+    } 
+}

@@ -1,0 +1,421 @@
+/*
+In a toll booth, there are N vehicles (each vehicle has a registration number) are waiting in a queue. The registration number of the vehicles are passed as input to the program.
+ For every minute a vehicle passes the toll booth. An integer X is also passed as input to the program. The program must print the registration number of the remaining vehicle(s) 
+after X minutes in the queue.
+*/
+import java.util.*;
+
+public class Hello {
+
+    static int front = -1, rear = -1, MAX = 1000;
+    static int queue[] = new int[MAX];
+    private static void insert(int regNum) {
+        queue[++rear] = regNum;
+    }
+    private static void poll() {
+        front++;
+    }
+    private static void display() {
+        int index;
+        for (index = front + 1; index <= rear; index++) {
+            System.out.print(queue[index] + " ");
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N, X;
+        N = sc.nextInt();
+        int vehicleRegNum, ctr;
+        for (ctr = 1; ctr <= N; ctr++) {
+            vehicleRegNum = sc.nextInt();
+            insert(vehicleRegNum);
+        }
+        X = sc.nextInt();
+        for (ctr = 1; ctr <= X; ctr++) {
+            poll();
+        }
+        display();
+    }
+}
+
+/*
+The program must accept N integers as the input. For each integer M (in N integers), if M is a multiple of 5, then the program must add M at beginning of the queue.
+Else if M is a multiple of 7, then the program must add M at the end of the queue. Else if M is a multiple of both 5 and 7, then the program must remove an integer
+ at the end of the queue. Else the program must remove an integer at the beginning of the queue. Finally, the program must print the integer(s) in the queue
+ (First In First Out order).
+*/
+import java.util.*;
+
+public class Hello {
+
+    static int size = 0, MAX = 1000;
+    static int deque[] = new int[MAX];
+    private static void addFirst(int num) {
+        for(int index=size;index>=1;index--) {
+            deque[index]=deque[index-1];
+        }
+        deque[0]=num;
+        size++;
+    }
+    private static void addLast(int num) {
+        deque[size++]=num;
+    }
+    private static void pollFirst() {
+        for(int index=0;index<size-1;index++) {
+            deque[index]=deque[index+1];
+        }
+        size--;
+    }
+    private static void pollLast() {
+        size--;
+    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N, num, index;
+        N = sc.nextInt();
+        while (N-- > 0) {
+            num = sc.nextInt();
+            if (num % 5 == 0 && num % 7 == 0) {
+                pollLast();
+            } else if (num % 5 == 0) {
+                addFirst(num);
+            } else if (num % 7 == 0) {
+                addLast(num);
+            } else {
+                pollFirst();
+            }
+        }
+        for (index = 0; index < size; index++) {
+            System.out.print(deque[index] + " ");
+        }
+    }
+}
+
+/*
+The program must accept N queries as the input. The queries are one of the following types.
+- If the query value is 1, then the integer followed by the query value is added at the beginning of the queue.
+- If the query value is 2, then the integer followed by the query value is added at the end of the queue.
+- If the query value is 3, then remove an integer at the beginning of the queue.
+- If the query value is 4, then remove an integer at the end of the queue.
+Finally, the program must print the integer(s) in the queue (First In First Out order).
+*/
+import java.util.*;
+
+public class Hello {
+
+    static int size = 0, MAX = 1000;
+    static int deque[] = new int[MAX];
+
+    private static void addFirst(int num) {
+        for (int index = size; index > 0; index--) {
+            deque[index] = deque[index - 1];
+        }
+        deque[0] = num;
+        size++;
+    }
+
+    private static void addLast(int num) {
+        deque[size++] = num;
+    }
+
+    private static void pollFirst() {
+        int num = deque[0];
+        for (int index = 0; index < size; index++) {
+            deque[index] = deque[index + 1];
+        }
+        size--;
+    }
+
+    private static void pollLast() {
+        size--;
+    }
+
+    private static int getSize() {
+        return size;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+       final int N = sc.nextInt();
+       for(int ctr=1;ctr<=N;ctr++) {
+           int q = sc.nextInt();
+           switch(q) {
+               case 1:
+                   addFirst(sc.nextInt());
+                   break;
+               case 2:
+                   addLast(sc.nextInt());
+                   break;
+               case 3:
+                   pollFirst();
+                   break;
+               case 4:
+                   pollLast();
+           }
+       }
+	 for (int index = 0; index < getSize(); index++) {
+            System.out.print(deque[index] + " ");
+        }
+    }
+}
+
+/*
+In a toll booth, there are N vehicles (each vehicle has a registration number) waiting in a queue. The registration number of the vehicles are passed as the input to the program.
+For every minute a vehicle passes the toll booth. An integer X is also passed as input to the program. The program must print the registration number of the vehicle(s) after X 
+minutes in the queue.
+*/
+import java.util.*;
+
+class Vehicle {
+    int regNum;
+    Vehicle next = null;
+    public Vehicle(int regNum) {
+        this.regNum = regNum;
+    }
+}
+
+class SinglyLinkedList {
+    Vehicle head = null, tail = null;
+    void add(Vehicle vehicle) {
+        if (head == null) {
+            head = tail = vehicle;
+        }
+        else {
+            tail.next = vehicle;
+            tail = vehicle;
+        }
+    }
+    Vehicle poll() {
+        if (head == null) {
+            return null;
+        }
+        Vehicle temp = head;
+        head = head.next;
+        return temp;
+    }
+}
+class Hello {
+
+    private static void display(SinglyLinkedList sll) {
+        Vehicle v = sll.poll();
+        while (v != null) {
+            System.out.print(v.regNum + " ");
+            v = sll.poll();
+        }
+    }  
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N, X, counter;
+        N = sc.nextInt();
+        SinglyLinkedList sll = new SinglyLinkedList();
+        for (counter = 1; counter <= N; counter++) {
+            sll.add(new Vehicle(sc.nextInt()));
+        }
+        X = sc.nextInt();
+        for (counter = 1; counter <= X; counter++) {
+            sll.poll();
+        }
+        display(sll);
+    } 
+}
+
+/*
+N integers are passed as input to the program. The first value is considered as the root of the Binary Search Tree (BST) to be formed. The program forms a BST with the
+given N integers and then invokes the printPreOrder method to traverse and print the BST values in pre-order traversal.
+IMPORTANT: Do not define the class PreorderTraversal as it is already defined.
+*/
+import java.util.*;
+class Node {
+    int data;
+    Node left = null, right = null;
+}
+class BinarySearchTree {
+    Node root = null ;
+    void insert(int data) {
+        Node newNode = new Node();
+        newNode.data = data;
+        if (root == null) {
+            root = newNode;
+            return;
+        }
+        Node temp = root, prev = null;
+        while(temp != null) {
+            prev = temp;
+            if (data < temp.data) {
+                temp = temp.left;
+            }
+            else {
+                temp = temp.right;
+            }
+        }
+        if (data < prev.data) {
+            prev.left = newNode;
+        }
+        else {
+            prev.right = newNode;
+        }
+    }
+}
+class Hello {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        BinarySearchTree bst = new BinarySearchTree();
+        for (int ctr = 1; ctr <= N; ctr++) {
+            bst.insert(sc.nextInt());
+        }
+        PreorderTraversal.printPreorder(bst.root);
+    }
+
+}
+
+/*
+An array of N positive integers is passed as input. The program must form a binary search tree (BST) with these integers. The first integer (out of the N integers passed) 
+is the root node of the binary search tree.
+IMPORTANT: Do not define the classes Node and BinarySearchTree as they are already defined.
+*/
+import java.util.*;
+
+class Hello {
+   static void printInorder(Node node) {
+       if (node == null) {
+           return;
+       }
+       printInorder(node.left);
+       System.out.print(node.data+" ");
+       printInorder(node.right);
+   }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        BinarySearchTree bst = new BinarySearchTree();
+        for (int ctr = 1; ctr <= N; ctr++) {
+            bst.insert(sc.nextInt());
+        }
+        printInorder(bst.root);
+    }
+}
+/*
+An array of N positive integers is passed as input. The program must form a binary search tree (BST) with these integers. The first integer (out of the N integers passed) is the 
+root node of the binary search tree.
+IMPORTANT: Do not define the classes Node and BinarySearchTree as they are already defined.
+*/
+import java.util.*;
+class Hello {
+    static void printPreorder(Node node) {
+        if (node == null) {
+            return;
+        }
+        System.out.print(node.data+" ");
+        printPreorder(node.left);
+        printPreorder(node.right);
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        BinarySearchTree bst = new BinarySearchTree();
+        for (int ctr = 1; ctr <= N; ctr++) {
+            bst.insert(sc.nextInt());
+        }
+        printPreorder(bst.root);
+    } 
+
+}
+
+/*
+An array of N positive integers is passed as input. The program must form a binary search tree (BST) with these integers. The first integer (out of the N integers passed) is the root
+node of the binary search tree.
+IMPORTANT: Do not define the classes Node and BinarySearchTree as they are already defined.
+*/
+import java.util.*;
+class Hello { 
+    static void printPostorder(Node node) {
+        if (node == null) {
+            return;
+        }
+        printPostorder(node.left);
+        printPostorder(node.right);
+        System.out.print(node.data+" ");
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        BinarySearchTree bst = new BinarySearchTree();
+        for (int ctr = 1; ctr <= N; ctr++) {
+            bst.insert(sc.nextInt());
+        }
+        printPostorder(bst.root);
+    }
+
+}
+
+
+/*
+An array of N positive integers is passed as input. The program must form a binary search tree (BST) with these integers. The first integer (out of the N integers passed) is the root 
+node of the binary search tree. Also, an integer M is passed as the input to the program. The program must print the number of children for M.
+IMPORTANT: Do not define the classes Node and BinarySearchTree as they are already defined.
+*/
+import java.util.*;
+
+class Hello {
+    static int countChildren(Node node, int key) {
+        if (node.data == key) {
+            int count = 0;
+            if (node.left != null) {
+                count++;
+            }
+            if (node.right != null) {
+                count++;
+            }
+            return count;
+        }
+        if (key < node.data) {
+            return countChildren(node.left,key);
+        }
+        else {
+            return countChildren(node.right,key);
+        }
+    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        BinarySearchTree bst = new BinarySearchTree();
+        for (int ctr = 1; ctr <= N; ctr++) {
+            bst.insert(sc.nextInt());
+        }
+        System.out.println(countChildren(bst.root, sc.nextInt()));
+    }
+}
+
+/*
+An array of N positive integers is passed as input. The program must form a binary search tree (BST) with these integers. The first integer (out of the N integers passed) is the root 
+node of the binary search tree. Then the program must print the height of the BST.
+IMPORTANT: Do not define the classes Node and BinarySearchTree as they are already defined.
+*/
+import java.util.*;
+
+class Hello {
+    static int getHeight(Node node) {
+        if (node == null) {
+            return -1;
+        }
+        int leftHeight = getHeight(node.left);
+        int rightHeight = getHeight(node.right);
+        return Math.max(leftHeight, rightHeight)+1;
+    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        BinarySearchTree bst = new BinarySearchTree();
+        for (int ctr = 1; ctr <= N; ctr++) {
+            bst.insert(sc.nextInt());
+        }
+        System.out.println(getHeight(bst.root));
+    } // End of main function
+
+}

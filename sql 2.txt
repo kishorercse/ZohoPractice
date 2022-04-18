@@ -1,0 +1,50 @@
+SELECT DISTINCT s.name, s.branch FROM student s, interviewround ir, company c WHERE s.id=ir.studentid AND c.id=ir.companyid AND ir.placed=1 AND c.employeecount>1000 ORDER BY name;
+
+SELECT DISTINCT s.name, s.branch FROM student s, interviewround ir, company c WHERE s.id=ir.studentid AND c.id=ir.companyid AND placed=1 AND 
+0=ANY(SELECT placed FROM interviewround WHERE s.id=interviewround.studentid) ORDER BY name;
+
+SELECT DISTINCT s.name, s.branch FROM student s, interviewround ir, company c WHERE s.id=ir.studentid AND c.id=ir.companyid AND 
+(SELECT COUNT(*) FROM interviewround WHERE placed=1 AND interviewround.studentid=s.id)>=2 ORDER BY name;
+
+SELECT CONCAT(name,'(',SUBSTR(occupation,1,1),')') as res FROM occupations ORDER BY res;
+SELECT CONCAT('There are a total of ',COUNT(*),' ',LCASE(occupation),'s.') FROM occupations GROUP BY occupation ORDER BY COUNT(*), occupation;
+
+SELECT COUNT(*) FROM city WHERE population>100000;
+
+SELECT 
+CASE
+    WHEN (a+b<=c OR b+c<=a OR a+c<=b) THEN 'Not A Triangle'
+    WHEN a=b AND b=c AND c=a THEN 'Equilateral'
+    WHEN (a=b AND b<>c AND c<>a) OR (a<>b AND b=c AND c<>a) OR (a<>b AND b<>c AND c=a) THEN 'Isosceles'
+    ELSE 'Scalene'
+END AS type
+FROM triangles;
+
+SELECT COUNT(city)-COUNT(DISTINCT city) FROM station;
+
+(SELECT city, LENGTH(city) AS len FROM station ORDER BY len, city LIMIT 1)
+UNION 
+(SELECT city, LENGTH(city) AS len FROM station ORDER BY len DESC, city LIMIT 1);
+
+SELECT DISTINCT city FROM station WHERE city LIKE 'a%' OR city LIKE 'e%' OR city LIKE 'i%' OR city LIKE 'o%' OR city LIKE 'u%';
+
+SELECT DISTINCT city FROM station WHERE city LIKE '%a' OR city LIKE '%e' OR city LIKE '%i' OR city LIKE '%o' OR city LIKE '%u';
+
+SELECT DISTINCT city FROM station WHERE (city LIKE 'A%' OR city LIKE 'E%' OR city LIKE 'I%' OR city LIKE 'O%' OR city LIKE 'U%') AND 
+(city LIKE '%a' OR city LIKE '%e' OR city LIKE '%i' OR city LIKE '%o' OR city LIKE '%u');
+
+SELECT DISTINCT city FROM station WHERE NOT (city LIKE 'A%' OR city LIKE 'E%' OR city LIKE 'I%' OR city LIKE 'O%' OR city LIKE 'U%');
+
+SELECT DISTINCT city FROM station WHERE NOT (city LIKE '%a' OR city LIKE '%e' OR city LIKE '%i' OR city LIKE '%o' OR city LIKE '%u');
+
+SELECT DISTINCT city FROM station WHERE NOT (city LIKE 'A%' OR city LIKE 'E%' OR city LIKE 'I%' OR city LIKE 'O%' OR city LIKE 'U%') 
+OR NOT (city LIKE '%a' OR city LIKE '%e' OR city LIKE '%i' OR city LIKE '%o' OR city LIKE '%u');
+
+SELECT DISTINCT city FROM station WHERE NOT (city LIKE 'A%' OR city LIKE 'E%' OR city LIKE 'I%' OR city LIKE 'O%' OR city LIKE 'U%') 
+AND NOT (city LIKE '%a' OR city LIKE '%e' OR city LIKE '%i' OR city LIKE '%o' OR city LIKE '%u');
+
+SELECT name FROM students WHERE marks>75 ORDER BY SUBSTR(name, -3, 3),id;
+
+SELECT name FROM employee ORDER BY name;
+
+SELECT name FROM employee WHERE salary>2000 AND months<10 ORDER BY employee_id;

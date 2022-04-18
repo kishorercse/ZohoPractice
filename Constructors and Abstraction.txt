@@ -1,0 +1,86 @@
+// Constructor chaining
+class Parent {
+    Parent() {
+        this(1); // Calling Constructor of same class
+        System.out.println(1);
+    }
+    Parent(int a) {
+        this(a,2);
+        System.out.println(2);
+    }
+    Parent(int a, int b) {
+        System.out.println(3);
+    }
+}
+
+class Child extends Parent{
+    public Child() {
+        super(1); // Calling parent class Constructor - Parent(int a)
+    }
+}
+public class Main
+{
+	public static void main(String[] args) {
+		new Parent();
+		new Child();
+	}
+}
+
+
+// Abstract classes and interfaces
+interface Int1 {
+    final int n=5;
+    abstract void display2();
+    public default void display() { // Public is optional
+        System.out.println(n);
+    }
+}
+abstract class Test implements Int1 {
+    @Override
+    public void display() { // Overriding default method
+        System.out.println(10);
+    }
+}
+class Test2 extends Test {
+    @Override
+    public void display2() { // Overriding abstract method
+        System.out.println(15);
+    }
+}
+public class Main
+{
+	public static void main(String[] args) {
+		Int1 x = new Test2();
+		Test y = new Test2();
+		x.display();
+		y.display2();
+	}
+}
+
+//Mutliple Inheritance
+interface A {
+    default void show() { // public method
+        System.out.println("A");
+    }
+}
+interface B {
+    default void show() { // public method
+        System.out.println("B");
+    }
+}
+class C implements A,B{
+    public void show() { // if not defined, ambiguity arises between 2 interface methods
+        System.out.println("C");
+        A.super.show();
+        B.super.show();
+    }
+}
+public class Main
+{
+	public static void main(String[] args) {
+	    A obj = new C();
+	    obj.show();
+	}
+}
+
+

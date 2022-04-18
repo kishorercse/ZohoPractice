@@ -1,0 +1,158 @@
+abstract class Person {
+	abstract void eat();
+}
+
+public class Outer {
+	
+	private int a=10;
+	private static int b=50;
+	class Inner { // Non-static/Member inner class
+		private int n=5;
+		private void print() {
+			System.out.println(a); // Can access outer class members
+		}
+	}
+	
+	void display() {
+		class LocalInner { //Local inner class
+			void msg() {
+				System.out.println("Local inner class"+" "+a); // can access outer class members
+			}
+		}
+		LocalInner l = new LocalInner();
+		l.msg();
+	}
+	
+	static class Static {
+		static void msg() {
+			System.out.println(b);
+		}
+	}
+	public static void main(String args[]) {
+		Outer obj1 = new Outer();
+		Outer.Inner obj2 = obj1.new Inner(); // Non-static inner
+		System.out.println(obj2.n);
+		obj2.print();
+		
+		Person p = new Person() {  //Anonymous class works with interface & abstract class
+			public void eat() {
+				System.out.println("fruits");
+			}
+		};
+		p.eat();
+		
+		
+		Outer obj3 = new Outer();
+		obj3.display();
+		
+		Outer.Static obj4 = new Outer.Static(); //Static inner
+		obj4.msg();
+		
+		Outer.Static.msg(); // Possible only if both inner class and method(msg()) are static
+		
+	}
+}
+
+//Problems
+/*
+The initial x and y co-ordinate values of a Robot are passed as the input.
+The rest of the input values are the directions in which the Robot moves along with the distance in that direction.
+The directions are denoted by N, E, S, W for North, East, South and West.
+The program should print the final x and y co-ordinates of the Robot.
+Example Input/Output:
+If the input string is x2 y1 N3 E2 S1 the output must be x4 y3
+If the input string is x-2 y3 N1 W3 the output must be x-5 y4
+*/
+import java.util.*;
+public class Hello {
+
+    public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int x=Integer.valueOf(sc.next().substring(1)), y=Integer.valueOf(sc.next().substring(1));
+		while(sc.hasNext()) {
+		    String s = sc.next();
+		    int t = Integer.valueOf(s.substring(1));
+		    char ch = s.charAt(0);
+		    switch(ch) {
+		        case 'N':
+		            y+=t;
+		            break;
+		        case 'S':
+		            y-=t;
+		            break;
+		        case 'E':
+		            x+=t;
+		            break;
+		        case 'W':
+		            x-=t;
+		    }
+		}
+		System.out.print("x"+x+" "+"y"+y);
+
+	}
+}
+
+/*
+The runs scored by a batsman for N balls are passed as the input to the program. The program must print the total runs scored by the batsman.
+*/
+import java.util.*;
+
+class Hello {
+    static int size=0,MAX=1000;
+    static int list[]=new int[MAX];
+    static void append(int score) {
+        list[size++]=score;
+    }
+
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N, counter;
+        int totalScore = 0, score, index;
+        N=sc.nextInt();
+        for (counter = 1; counter <= N; counter++) {
+            score=sc.nextInt();
+            append(score);
+        }
+        for (index = 0; index < size; index++) {
+            totalScore += list[index];
+        }
+        System.out.println(totalScore);
+    }  
+}
+
+/*
+The runs scored by a batsman for N balls are passed as the input to the program. An integer M is also passed as the input. The program must print the total runs 
+scored by the batsman in the last M balls.
+*/
+import java.util.*;
+
+public class Hello {
+
+    static int size = 0, MAX = 1000;
+    static int list[] = new int[MAX];
+    static void prepend(int score) {
+        for(int i=size+1;i>0;i--) {
+            list[i]=list[i-1];
+        }
+        list[0]=score;
+        size++;
+    }   
+
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N, counter;
+        int totalScore = 0, score, index;
+        N = sc.nextInt();
+        for (counter = 1; counter <= N; counter++) {
+            score = sc.nextInt();
+            prepend(score);
+        }
+        int M = sc.nextInt();
+        for (index = 0; index < M; index++) {
+            totalScore += list[index];
+        }
+        System.out.println(totalScore);
+    }
+}

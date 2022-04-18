@@ -1,0 +1,155 @@
+/*
+create table plan(id int primary key, name varchar(15), price int);
+create table customer(id int primary key, name varchar(15), age int, planid int, foreign key (planid) references plan(id));
+Write the SQL query to fetch the id, name and age of the customers along with their plan name and price for whom the age is greater than or equal to 18.
+Note: The customers must be sorted in descending order based on their ids.
+*/
+SELECT c.id,c.name,c.age,p.name,p.price FROM customer c, plan p WHERE c.planid=p.id AND c.age>=18 ORDER BY c.id DESC;
+
+/*
+create table operatingsystem (id int, versionname varchar(15), versionnumber varchar(10), previousversionid int, primary key(id), foreign key (previousversionid) references operatingsystem(id));
+Write the SQl query to fetch the id, version name, version number and previous version name of the operating systems.
+Note: The operating systems must be sorted in descending order based on their id.
+*/
+SELECT op1.id, op1.versionname, op1.versionnumber, op2.versionname FROM operatingsystem AS op1, operatingsystem AS op2 WHERE op1.previousversionid=op2.id ORDER BY op1.id DESC;
+
+/*
+create table course(id int primary key, name varchar(15));
+create table student(id int, name varchar(15), age int, courseid int, foreign key (courseid) references course(id));
+Write the SQL query to fetch the id, name and age of the students under 18 years along with the course name.
+Note: The students must be sorted in descending order based on their ids.
+*/
+SELECT s.id, s.name, s.age, c.name FROM student AS s LEFT JOIN course AS c ON s.courseid=c.id where s.age<18 ORDER BY s.id DESC;
+
+/*
+create table course(id int primary key, name varchar(15));
+create table student(id int, name varchar(15), age int, courseid int, foreign key (courseid) references course(id));
+Write the SQL query to fetch the id and name of each course along with the name and age of the student(s).
+Note: The courses must be sorted in descending order based on their ids.
+*/
+SELECT c.id, c.name, s.name, s.age FROM course AS C LEFT JOIN student AS s ON c.id=s.courseid ORDER BY c.id DESC;
+
+/*
+create table product (id int, name varchar(20), producttype varchar(10), price int);
+Write the SQL query to fetch the product type and the number of the products in each type of the products whose the price is greater than or equal to 50.
+Note: The type of the products must be in sorted order.
+*/
+SELECT producttype, COUNT(*) FROM product WHERE price>=50 GROUP BY producttype ORDER BY producttype;
+
+/*
+create table mattress (id int, brandname(10), material varchar(15), size varchar(10), price int);
+Write the SQL query to fetch the material, size and the count of mattresses in each material and size whose price is greater than or equal to 10000 and less than or equal to 15000.
+Note: The materials of the mattresses must be in sorted order. If more than one records found with the same material then sort those records based on their size in sorted order.
+*/
+SELECT material, size, COUNT(*) FROM mattress WHERE price>=10000 AND price<=15000 GROUP BY material, size ORDER BY material,size;
+
+/*
+create table mobile(id int primary key, brandname varchar(15), modelname varchar(15));
+create table customer(customerid int, name varchar(15), country varchar(15), mobileid int, foreign key (mobileid) references mobile(id));
+Write the SQL query to fetch the brand name, model name and the number of mobiles sold in the country "India" for all the mobiles.
+Note: The number of mobiles sold must be sorted in descending order. If more than one records found with the same sold count then sort those records based on their brand name in sorted order. If more than one records found with the same sold count and brand name then sort those records based on their model name in sorted order.
+*/
+SELECT m.brandname, m.modelname, COUNT(*) AS count FROM mobile AS M INNER JOIN customer AS c ON c.mobileid=m.id WHERE c.country='India' GROUP BY m.brandname, m.modelname 
+ORDER BY count DESC, m.brandname, m.modelname;
+
+/*
+create table student(id int primary key, name varchar(15));
+create table test(id int primary key, name varchar(15), studentid int, foreign key (studentid) references student(id));
+create table topicwisescore(id int, testid int, numerical int, logical int, verbal int, foreign key (testid) references test(id));
+Write the SQL query to fetch the student id, student name, test name, test score, numerical score, logical score and verbal score of the students.
+Note: The students must be sorted in descending order based on the test score. If the test score is equal, then sort them in descending order based on the numerical score. 
+If the test score and numerical score are equal, then sort them in descending order based on the logical score. If all three scores(numerical, logical and verbal) are equal, 
+then sort them in descending order based on the test id.
+*/
+SELECT s.id, s.name, test.name, topic.numerical+topic.logical+topic.verbal AS testscore, topic.numerical, topic.logical, topic.verbal FROM student AS s, test, topicwisescore AS topic WHERE s.id=test.studentid AND test.id=topic.testid ORDER BY testscore DESC, topic.numerical DESC, topic.logical DESC, topic.verbal DESC, test.id DESC;
+
+/*
+create table player(id int, name varchar(15), teamname varchar(15));
+Write the SQL query to fetch the team names with at least 3 players along with the number of players in the team.
+Note: The teams must be sorted in descending order based on the number of players in the team. If two or more teams with the same number of players then those team names must be in 
+sorted order.
+*/
+SELECT teamname,COUNT(*) AS count FROM player GROUP BY teamname HAVING count>=3 ORDER BY count DESC, teamname;
+
+/*
+create table buspassenger(id int, name varchar(15), age int);
+create table trainpassenger(id int, name varchar(15), age int);
+create table aeroplanepassenger(id int, name varchar(15), age int);
+Write the SQL query to fetch the name and age of all the distinct passengers in the given three tables.
+Note: The names must be sorted in descending order based on their age. If two or more names found with same age then those names must be in sorted order.
+*/
+SELECT name, age FROM buspassenger UNION 
+SELECT name, age FROM trainpassenger UNION 
+SELECT name, age FROM aeroplanepassenger ORDER BY age DESC, name;
+
+/*
+create table customer(id int primary key, name varchar(15), city varchar(15));
+create table shop(id int primary key, name varchar(15), city varchar(15));
+create table customershopmap(customerid int, shopid int, foreign key (customerid) references customer(id), foreign key (shopid) references shop(id));
+Write the SQL query to fetch the id, name and city of the customers along with the name and city of the shops where the customer ordered.
+Note: The customers must be sorted in descending order based on their ids. If more than one records found with the same customer id then those records must be sorted in descending
+order based on the shop ids.
+*/
+SELECT c.id, c.name, c.city, s.name, s.city FROM customer c, shop s, customershopmap csm WHERE c.id=csm.customerid AND s.id=csm.shopid ORDER BY c.id DESC, s.id DESC;
+
+/*
+create table movie(id int, name varchar(15), releaseyear int, budget int);
+Write the SQL query to fetch the id, name, release year and budget of the highest budget movies in each year.
+Note: The movies must be sorted in descending order based on the budget. If two or more movies have the same budget, then those movies must be sorted in descending order based on 
+the release year. If two or more movies have the same budget and release year, then those movies must be sorted in descending order based on their ids.
+*/
+SELECT id, name, releaseyear, budget FROM movie WHERE budget IN (SELECT MAX(budget) FROM movie GROUP BY releaseyear) ORDER BY budget DESC, releaseyear DESC, id DESC;
+
+/*
+create table customer(id int primary key, name varchar(15));
+create table icecreamorder(id int, flavor varchar(15), quantity int, price int, customerid int, foreign key (customerid) references customer(id));
+Write the SQL query to fetch the id and name of the customers who ordered more than 5 icecreams(quantity) along with the total number of icecreams and the total price of the icecreams.
+Note: The customers must be sorted in descending order based on total number of icecreams ordered. If more than one records found with the same total number of icecreams then sort those 
+records based on their total price in descending order. If more than one records found with the same total number of icecreams and same total price then sort those records based on their
+ids in descending order.
+*/
+SELECT c.id, c.name, SUM(ice.quantity) AS totalicecream, SUM(ice.price) AS totalprice FROM customer c, icecreamorder ice WHERE c.id=ice.customerid GROUP BY c.id HAVING totalicecream>5 
+ORDER BY totalicecream DESC, totalprice DESC, c.id DESC;
+
+/*
+create table customer(id int primary key, name varchar(15));
+create table bankaccount(id int, accounttype varchar(15), balance int, customerid int, foreign key (customerid) references customer(id));
+Write the SQL query to fetch the id, name and the total balance amount for all the customers having at least one bank account.
+Note: The customers must be sorted in descending order based on the total balance amount. If two or more customers have the same total balance amount, then those customers must be
+sorted in descending order based on their ids.
+*/
+SELECT c.id, c.name, SUM(b.balance) AS totalbalance FROM customer c, bankaccount b WHERE c.id=b.customerid GROUP BY c.id ORDER BY totalbalance DESC, c.id DESC;
+
+/*
+create table book(id int, bookname varchar(10), authorname varchar(10), publishedyear int);
+Write the SQL query to fetch the published year, author name and the number of books published by the author in the related year.
+Note: The published years must be sorted in descending order. If two or more authors published in the same year then the authors must be sorted in descending order based on the number 
+of books published by the author. If two or more authors published the same number of books in the same year then the author name must be in sorted order.
+*/
+SELECT publishedyear, authorname, COUNT(*) as count FROM book GROUP BY publishedyear, authorname ORDER BY publishedyear DESC, count DESC, authorname;
+
+/*
+create table location(id int primary key, name varchar(15));
+create table touristplace(id int, name varchar(20), locationid int, foreign key (locationid) references location(id));
+Write the SQL query to fetch the id and name of the tourist places along with the location name.
+Note: The tourist places must be sorted in descending order based on their ids.
+*/
+SELECT tp.id, tp.name, l.name FROM touristplace tp, location l WHERE tp.locationid=l.id ORDER BY tp.id DESC;
+
+/*
+create table domain(id int primary key, name varchar(15));
+create table user(id int, name varchar(15), domainid int, foreign key (domainid) references domain(id));
+Write the SQL query to fetch the id and name of each domain along with the id and name of its user(s).
+Note: The domains must be sorted in descending order based on their ids. If there are two or more users in a domain, then those users must be sorted in descending order based on their ids.
+*/
+SELECT d.id, d.name, u.id, u.name FROM domain d LEFT JOIN user u ON d.id=u.domainid ORDER BY d.id DESC, u.id DESC;
+
+/*
+create table candidate(id int primary key, name varchar(15));
+create table job(id int primary key, title varchar(20), companyname varchar(15));
+create table jobapplicant(jobid int, candidateid int, status varchar(8), foreign key (candidateid) references candidate(id), foreign key (jobid) references job(id));
+Write the SQL query to fetch the candidate id, candidate name, job id, job title, company name and status of the job application of the candidates who applied for at least one job.
+Note: The candidates must be sorted in descending order based on the candidate id. If a candidate has applied for two or more jobs, then those records must be sorted in descending 
+order based on the job id.
+*/
+SELECT c.id, c.name, j.id, j.title, j.companyname, ja.status FROM candidate c, job j, jobapplicant ja WHERE c.id=ja.candidateid AND j.id=ja.jobid ORDER BY c.id DESC, j.id DESC;

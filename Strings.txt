@@ -1,0 +1,60 @@
+import java.util.*;
+public class Strings {
+	public static void main(String args[]) {
+		
+		String lit="String Literal";
+		String obj=new String("String object");
+		byte arr[]= {65,66,67,68,69,70};
+		String bs=new String(arr);
+		
+		System.out.println(bs); 
+		System.out.println(lit.length()); 
+		System.out.println(obj.charAt(5)); 
+		System.out.println(lit.concat(obj)); // concatenates 2 strings
+		System.out.println(lit.indexOf("x")); 
+		
+		System.out.println(lit.equals(obj)); 
+		System.out.println("ABCD".equalsIgnoreCase("abcd")); 
+		System.out.println(bs.compareTo("ABCD")); 
+		System.out.println("ABCD".compareTo(bs));
+		System.out.println(bs.compareToIgnoreCase("abcde"));
+		
+		bs=lit; // Deep copy(Not a reference) of string lit is stored in bs
+		lit=lit+"a";
+		System.out.println(bs);
+		
+		//All these functions return a new String without modifying previous string
+		System.out.println(bs.replace("a","x")+" "+bs); 
+		System.out.println(bs.toUpperCase()+" "+bs);
+		System.out.println(bs.toLowerCase()+" "+bs);
+		
+		System.out.println("String");
+		System.out.println(lit.contains("ing Lit"));
+		System.out.println(lit.startsWith("St"));
+		System.out.println(lit.endsWith("ala"));
+		
+		char arr1[]=obj.toCharArray();
+		System.out.println(Arrays.toString(arr1));
+		char arr2[]=new char[15];
+		obj.getChars(0,5,arr2,0); // obj[0] to obj[5-1] is copied to arr2
+		System.out.println(Arrays.toString(arr2));
+		System.out.println("ab".hashCode());
+		
+		String lit2=obj.intern(); // returns String literal of the object
+		lit="String object";
+		System.out.println(lit==obj);
+		System.out.println(lit==lit2);  // == checks string for equality of type(object/literal) and content
+		System.out.println(lit.equals(obj)); //equals checks only content
+		
+		Character ch='a';
+		System.out.println(Character.isLetter(ch)+" "+Character.isAlphabetic(ch));
+		System.out.println(Character.isDigit(ch));
+		System.out.println(Character.isLetterOrDigit(ch));
+		System.out.println(Character.isUpperCase(ch));
+		System.out.println(Character.isLowerCase(ch));
+		System.out.println(Character.toUpperCase(ch)); //Returns modified value, doesnot modify native variable value
+		System.out.println(Character.toLowerCase(ch)); //Returns modified value, doesnot modify native variable value
+		System.out.println((int)ch); // Prints ascii-value of the character
+		
+	}
+}

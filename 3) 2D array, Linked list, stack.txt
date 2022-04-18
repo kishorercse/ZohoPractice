@@ -1,0 +1,995 @@
+/*
+Boats & Ships - North or West
+The program must accept a character matrix of size R*C representing a port as the input. The character asterisk (*) represents water. 
+The character hash symbol (#) represents a boat. Two consecutive hash symbols (vertically or horizontally) represent a ship. 
+The vertical ships can move only towards the north. The horizontal ships can move only towards the west. The boats can move towards north or west. 
+The boats and ships leave the port based on the following conditions.
+- Every odd minute, the first occurring boat or the vertical ship in each column leave the port (towards north).
+- Every even minute, the first occurring boat or the horizontal ship in each row leave the port (towards west).
+- A boat or ship cannot move if there is another boat or ship on its way.
+The program must print the number of minutes it takes to empty the port as the output.
+
+Boundary Condition(s):
+2 <= R, C <= 25
+
+Input Format:
+The first line contains R and C separated by a space.
+The next R lines, each contains C characters separated by a space.
+
+Output Format:
+The first line contains the number of minutes it takes to empty the port.
+
+Example Input/Output 1:
+Input:
+7 6
+# # * # # *
+* * # * * #
+# * # * # *
+* * * * # *
+# * # # * #
+* # * * * *
+* * * * # *
+
+Output:
+5
+
+Explanation:
+After 1 minute (1 vertical ship and 1 boat left the port), the port becomes
+# # * # # *
+* * * * * *
+# * * * # *
+* * * * # *
+# * # # * #
+* # * * * *
+* * * * # *
+After 2 minutes (1 horizontal ship and 4 boats left the port), the port becomes
+* * * # # *
+* * * * * *
+* * * * # *
+* * * * # *
+* * # # * #
+* * * * * *
+* * * * * *
+After 3 minutes (1 boat left the port), the port becomes
+* * * # # *
+* * * * * *
+* * * * # *
+* * * * # *
+* * # # * *
+* * * * * *
+* * * * * *
+After 4 minutes (2 horizontal ships left the port), the port becomes
+* * * * * *
+* * * * * *
+* * * * # *
+* * * * # *
+* * * * * *
+* * * * * *
+* * * * * *
+After 5 minutes (1 vertical ship left the port), the port becomes empty.
+It takes 5 minutes to empty the port. So 5 is printed as the output.
+
+Example Input/Output 2:
+Input:
+6 7
+* * * # * # #
+# # * * * * *
+* * # * * # *
+* # * # * # *
+* # * # * * #
+# * # * * # *
+
+Output:
+4
+*/
+import java.util.*;
+public class Hello {
+    static int R, C;
+    private static boolean verticalShip(char mat[][], int row, int col) {
+        return (row-1>=0 && mat[row-1][col]=='#') || (row+1<R && mat[row+1][col]=='#');
+    }
+    
+    private static boolean horizontalShip(char mat[][], int row, int col) {
+        return (col-1>=0 && mat[row][col-1]=='#') || (col+1<C && mat[row][col+1]=='#');
+    }
+    public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		R = sc.nextInt();
+		C = sc.nextInt();
+		int hashCount = 0;
+		char mat[][] = new char[R][C];
+		for(int row=0;row<R;row++) {
+		    for(int col=0;col<C;col++) {
+		        mat[row][col]=sc.next().charAt(0);
+		        if (mat[row][col]=='#')
+		            hashCount++;
+		    }
+		}
+		int minute=1;
+		while(hashCount>0) {
+		    if (minute%2!=0) {
+		        for(int col=0;col<C;col++) {
+		            for(int row=0;row<R;row++) {
+		                if (mat[row][col]=='#') {
+		                    if (!horizontalShip(mat,row,col)) {
+		                        mat[row][col]='*';
+		                        hashCount--;
+		                        if (row+1<R && mat[row+1][col]=='#') {
+		                            mat[row+1][col]='*';
+		                            hashCount--;
+		                        }
+		                    }
+		                    break;
+		                }
+		            }
+		        }
+		    }
+		    else {
+		        for(int row=0;row<R;row++) {
+		            for(int col=0;col<C;col++) {
+		                if (mat[row][col]=='#') {
+		                    if (!verticalShip(mat,row,col)) {
+		                        mat[row][col]='*';
+		                        hashCount--;
+		                        if (col+1<C && mat[row][col+1]=='#') {
+		                            mat[row][col+1]='*';
+		                            hashCount--;
+		                        }
+		                    }
+		                    break;
+		                }
+		            }
+		        }
+		    }
+		    minute++;
+		}
+		System.out.print(minute-1);
+	}
+}
+/*
+An even length string S is passed as the input. The program must split the string into two parts S1 and S2 and sort them in ascending order.
+*/
+import java.util.*;
+public class Hello {
+
+    public static void main(String[] args) {
+		String s = (new Scanner(System.in)).next();
+		int len=s.length()/2;
+		String a=s.substring(0,len), b=s.substring(len);
+		if (a.compareTo(b)>0) {
+		    System.out.println(b);
+		    System.out.println(a);
+		}
+		else {
+		    System.out.println(a);
+		    System.out.println(b);
+		}
+
+	}
+}
+
+/*
+N prices in an invoice are given as input. The program must add the prices to the doubly linked list. An integer M and M positions are also passed as input. 
+The program must remove the elements present at the given positions and finally print the list in forward order and reverse order.
+*/
+import java.util.*;
+
+class Invoice {
+    int price;
+    Invoice prev = null, next = null;
+}
+
+class DoublyLinkedList {
+    Invoice head = null, tail = null;
+    void append(int price) {
+        Invoice newNode = new Invoice();
+        newNode.price=price;
+        if (head==null) {
+            head = tail = newNode;
+        }
+        else {
+            tail.next = newNode;
+            newNode.prev = tail;
+            tail = newNode;
+        }
+    }
+    void removeAt(int position) {
+        Invoice node = head;
+        if (position == 1) {
+            head = head.next;
+            head.prev = null;
+            return;
+        }
+        while(node != null && position > 2) {
+            node = node.next;
+            position--;
+        }
+        node.next = node.next.next;
+        if (node.next == null) {
+            tail = node;
+        }
+        else {
+            node.next.prev = node;
+        }
+    }
+}
+class Hello {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N, counter, price, position;
+        N = sc.nextInt();
+        DoublyLinkedList dll = new DoublyLinkedList();
+        for (counter = 1; counter <= N; counter++) {
+            price = sc.nextInt();
+            dll.append(price);
+        }
+        int M = sc.nextInt();
+        while (M-- > 0) {
+            position = sc.nextInt();
+            dll.removeAt(position);
+        }
+        Invoice invoice = dll.head;
+        while (invoice != dll.tail) {
+            System.out.print(invoice.price + " ");
+            invoice = invoice.next;
+        }
+        System.out.println(invoice.price);
+
+        invoice = dll.tail;
+        while (invoice != dll.head) {
+            System.out.print(invoice.price + " ");
+            invoice = invoice.prev;
+        }
+        System.out.println(invoice.price);
+    } 
+}
+
+
+/*
+N prices in an invoice and an integer P are passed as input to the program. 
+The program must add the prices to the circularly linked list at it's end and print the list circularly starting from the position P in both directions. 
+*/
+import java.util.*;
+            
+class Invoice {
+    int price;
+    Invoice next = null, prev = null;
+}
+
+class CircularDoublyLinkedList {
+    Invoice head = null, tail = null;
+    void append(int price) {
+        Invoice newNode = new Invoice();
+        newNode.price = price;
+        if (head == null) {
+            head = tail = newNode;
+            head.next=head;
+            head.prev=head;
+        }
+        else {
+            newNode.next = head;
+            newNode.prev = tail;
+            tail.next = newNode;
+            head.prev = newNode;
+            tail=newNode;
+        }
+    }
+}
+class Hello {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N, counter, price, position;
+        N = sc.nextInt();
+        CircularDoublyLinkedList cdll = new CircularDoublyLinkedList();
+        for (counter = 1; counter <= N; counter++) {
+            price = sc.nextInt();
+            cdll.append(price);
+        }
+        position = sc.nextInt();
+        Invoice invoice = cdll.head, start;
+        while (position > 1) {
+            invoice = invoice.next;
+            position--;
+        }
+        start = invoice;
+        do {
+            System.out.print(invoice.price + " ");
+            invoice = invoice.next;
+        } while (invoice != start);
+        System.out.println();
+        start = invoice;
+        do {
+            System.out.print(invoice.price + " ");
+            invoice = invoice.prev;
+        } while (invoice != start);
+    }
+}
+
+/*
+N prices in an invoice and an integer P are given as input. The program must add the prices to the list in the beginning of the list and 
+print the list circularly starting from the position P in both directions.
+*/
+import java.util.*;
+
+class Invoice {
+    int price;
+    Invoice next = null, prev = null;
+}
+
+class CircularDoublyLinkedList {
+    Invoice head = null, tail = null;
+    void prepend(int price) {
+        Invoice newNode = new Invoice();
+        newNode.price = price;
+        if (head == null) {
+            head = tail = newNode;
+            head.next = head;
+            tail.next = tail;
+        }
+        else {
+            newNode.next = head;
+            newNode.prev = tail;
+            tail.next = newNode;
+            head.prev = newNode;
+            head = newNode;
+        }
+    }
+}
+
+class Hello {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N, counter, price, position;
+        N = sc.nextInt();
+        CircularDoublyLinkedList cdll = new CircularDoublyLinkedList();
+        for (counter = 1; counter <= N; counter++) {
+            price = sc.nextInt();
+            cdll.prepend(price);
+        }
+        position = sc.nextInt();
+        Invoice invoice = cdll.head, start;
+        while (position > 1) {
+            invoice = invoice.next;
+            position--;
+        }
+        start = invoice;
+        do {
+            System.out.print(invoice.price + " ");
+            invoice = invoice.next;
+        } while (invoice != start);
+        System.out.println();
+        start = invoice;
+        do {
+            System.out.print(invoice.price + " ");
+            invoice = invoice.prev;
+        } while (invoice != start);
+    }
+}
+
+
+/*
+N prices in an invoice are given as input. The program must add the prices to the circular doubly linked list. An integer M and M positions are also passed as input. 
+The program must remove the elements present at the given positions and finally print the list circularly starting from the head in both directions.
+*/
+import java.util.*;
+
+class Invoice {
+    int price;
+    Invoice next = null, prev = null;
+}
+class CircularDoublyLinkedList {
+    Invoice head = null, tail = null;
+    void append(int price) {
+        Invoice newNode = new Invoice();
+        newNode.price = price;
+        if (head == null) {
+            head = tail = newNode;
+            head.next = tail;
+            head.prev = head;
+        }
+        else {
+            newNode.prev = tail;
+            newNode.next = head;
+            tail.next = newNode;
+            head.prev = newNode;
+            tail = newNode;
+        }
+    }
+    void removeAt(int position) {
+        Invoice node = head;
+        if (position==1) {
+            head = head.next;
+            head.prev = tail;
+            tail.next = head;
+            return;
+        }
+        while(node != null && position > 2) {
+            node = node.next;
+            position--;
+        }
+        if (node.next == tail) {
+            node.next = head;
+            head.prev = node;
+            tail = node;
+            return;
+        }
+        node.next = node.next.next;
+        node.next.prev = node;
+    }
+}
+class Hello {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N, counter, price, position;
+        N = sc.nextInt();
+        CircularDoublyLinkedList cdll = new CircularDoublyLinkedList();
+        for (counter = 1; counter <= N; counter++) {
+            price = sc.nextInt();
+            cdll.append(price);
+        }
+
+        int M = sc.nextInt();
+        while (M-- > 0) {
+            position = sc.nextInt();
+            cdll.removeAt(position);
+        }
+
+        Invoice invoice = cdll.head;
+        do {
+            System.out.print(invoice.price + " ");
+            invoice = invoice.next;
+        } while (invoice != cdll.head);
+        System.out.println();
+
+        invoice = cdll.head;
+        do {
+            System.out.print(invoice.price + " ");
+            invoice = invoice.prev;
+        } while (invoice != cdll.head);
+    }
+}
+
+/*
+N prices in an invoice are given as input. The program must add the prices to the doubly linked list. An integer M and M positions are also passed as input. 
+The program must remove the elements present at the given positions and finally print the list in forward order and reverse order.
+*/
+import java.util.*;
+
+class Invoice {
+    int price;
+    Invoice prev = null, next = null;
+}
+
+class DoublyLinkedList {
+    Invoice head = null, tail = null;
+    void append(int price) {
+        Invoice newNode = new Invoice();
+        newNode.price=price;
+        if (head==null) {
+            head = tail = newNode;
+        }
+        else {
+            tail.next = newNode;
+            newNode.prev = tail;
+            tail = newNode;
+        }
+    }
+    void removeAt(int position) {
+        Invoice node = head;
+        if (position == 1) {
+            head = head.next;
+            head.prev = null;
+            return;
+        }
+        while(node != null && position > 2) {
+            node = node.next;
+            position--;
+        }
+        node.next = node.next.next;
+        if (node.next == null) {
+            tail = node;
+        }
+        else {
+            node.next.prev = node;
+        }
+    }
+}
+class Hello {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N, counter, price, position;
+        N = sc.nextInt();
+        DoublyLinkedList dll = new DoublyLinkedList();
+        for (counter = 1; counter <= N; counter++) {
+            price = sc.nextInt();
+            dll.append(price);
+        }
+        int M = sc.nextInt();
+        while (M-- > 0) {
+            position = sc.nextInt();
+            dll.removeAt(position);
+        }
+        Invoice invoice = dll.head;
+        while (invoice != dll.tail) {
+            System.out.print(invoice.price + " ");
+            invoice = invoice.next;
+        }
+        System.out.println(invoice.price);
+
+        invoice = dll.tail;
+        while (invoice != dll.head) {
+            System.out.print(invoice.price + " ");
+            invoice = invoice.prev;
+        }
+        System.out.println(invoice.price);
+    } 
+}
+
+
+/*
+N prices in an invoice and an integer P are passed as input to the program. 
+The program must add the prices to the circularly linked list at it's end and print the list circularly starting from the position P in both directions. 
+*/
+import java.util.*;
+            
+class Invoice {
+    int price;
+    Invoice next = null, prev = null;
+}
+
+class CircularDoublyLinkedList {
+    Invoice head = null, tail = null;
+    void append(int price) {
+        Invoice newNode = new Invoice();
+        newNode.price = price;
+        if (head == null) {
+            head = tail = newNode;
+            head.next=head;
+            head.prev=head;
+        }
+        else {
+            newNode.next = head;
+            newNode.prev = tail;
+            tail.next = newNode;
+            head.prev = newNode;
+            tail=newNode;
+        }
+    }
+}
+class Hello {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N, counter, price, position;
+        N = sc.nextInt();
+        CircularDoublyLinkedList cdll = new CircularDoublyLinkedList();
+        for (counter = 1; counter <= N; counter++) {
+            price = sc.nextInt();
+            cdll.append(price);
+        }
+        position = sc.nextInt();
+        Invoice invoice = cdll.head, start;
+        while (position > 1) {
+            invoice = invoice.next;
+            position--;
+        }
+        start = invoice;
+        do {
+            System.out.print(invoice.price + " ");
+            invoice = invoice.next;
+        } while (invoice != start);
+        System.out.println();
+        start = invoice;
+        do {
+            System.out.print(invoice.price + " ");
+            invoice = invoice.prev;
+        } while (invoice != start);
+    }
+}
+
+/*
+N prices in an invoice and an integer P are given as input. The program must add the prices to the list in the beginning of the list and 
+print the list circularly starting from the position P in both directions.
+*/
+import java.util.*;
+
+class Invoice {
+    int price;
+    Invoice next = null, prev = null;
+}
+
+class CircularDoublyLinkedList {
+    Invoice head = null, tail = null;
+    void prepend(int price) {
+        Invoice newNode = new Invoice();
+        newNode.price = price;
+        if (head == null) {
+            head = tail = newNode;
+            head.next = head;
+            tail.next = tail;
+        }
+        else {
+            newNode.next = head;
+            newNode.prev = tail;
+            tail.next = newNode;
+            head.prev = newNode;
+            head = newNode;
+        }
+    }
+}
+
+class Hello {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N, counter, price, position;
+        N = sc.nextInt();
+        CircularDoublyLinkedList cdll = new CircularDoublyLinkedList();
+        for (counter = 1; counter <= N; counter++) {
+            price = sc.nextInt();
+            cdll.prepend(price);
+        }
+        position = sc.nextInt();
+        Invoice invoice = cdll.head, start;
+        while (position > 1) {
+            invoice = invoice.next;
+            position--;
+        }
+        start = invoice;
+        do {
+            System.out.print(invoice.price + " ");
+            invoice = invoice.next;
+        } while (invoice != start);
+        System.out.println();
+        start = invoice;
+        do {
+            System.out.print(invoice.price + " ");
+            invoice = invoice.prev;
+        } while (invoice != start);
+    }
+}
+
+
+/*
+N prices in an invoice are given as input. The program must add the prices to the circular doubly linked list. An integer M and M positions are also passed as input. 
+The program must remove the elements present at the given positions and finally print the list circularly starting from the head in both directions.
+*/
+import java.util.*;
+
+class Invoice {
+    int price;
+    Invoice next = null, prev = null;
+}
+class CircularDoublyLinkedList {
+    Invoice head = null, tail = null;
+    void append(int price) {
+        Invoice newNode = new Invoice();
+        newNode.price = price;
+        if (head == null) {
+            head = tail = newNode;
+            head.next = tail;
+            head.prev = head;
+        }
+        else {
+            newNode.prev = tail;
+            newNode.next = head;
+            tail.next = newNode;
+            head.prev = newNode;
+            tail = newNode;
+        }
+    }
+    void removeAt(int position) {
+        Invoice node = head;
+        if (position==1) {
+            head = head.next;
+            head.prev = tail;
+            tail.next = head;
+            return;
+        }
+        while(node != null && position > 2) {
+            node = node.next;
+            position--;
+        }
+        if (node.next == tail) {
+            node.next = head;
+            head.prev = node;
+            tail = node;
+            return;
+        }
+        node.next = node.next.next;
+        node.next.prev = node;
+    }
+}
+class Hello {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N, counter, price, position;
+        N = sc.nextInt();
+        CircularDoublyLinkedList cdll = new CircularDoublyLinkedList();
+        for (counter = 1; counter <= N; counter++) {
+            price = sc.nextInt();
+            cdll.append(price);
+        }
+
+        int M = sc.nextInt();
+        while (M-- > 0) {
+            position = sc.nextInt();
+            cdll.removeAt(position);
+        }
+
+        Invoice invoice = cdll.head;
+        do {
+            System.out.print(invoice.price + " ");
+            invoice = invoice.next;
+        } while (invoice != cdll.head);
+        System.out.println();
+
+        invoice = cdll.head;
+        do {
+            System.out.print(invoice.price + " ");
+            invoice = invoice.prev;
+        } while (invoice != cdll.head);
+    }
+}
+
+/*
+In a bookstore, N books (each book has an id) are arranged by the shopkeeper. The ids of the books are passed as input to the program. 
+The program must print the book ids in reverse order.
+*/
+import java.util.*;
+
+public class Hello {
+
+    static int top = -1, MAX = 1000;
+    static int stack[] = new int[MAX];
+    
+    private static void push(int data) {
+        stack[++top] = data;
+    }
+    private static int pop() {
+        return stack[top--];
+    }    
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        int index, currBookId, ctr;
+        for (index = 0; index < N; index++) {
+            currBookId = sc.nextInt();
+            push(currBookId);
+        }
+        for (ctr = 1; ctr <= N; ctr++) {
+            System.out.print(pop() + " ");
+        }
+    }
+}
+
+/*
+The program must accept N integers as input. If the integer M (in N integers) is a single digit integer, then the program must pop an integer from the stack. 
+Else the program must push the integer M to the stack. Finally, the program must print the integer(s) in the stack (Last In First Out order).
+*/
+import java.util.*;
+
+public class Hello {
+
+    static int top = -1, MAX = 1000;
+    static int stack[] = new int[MAX];
+
+    private static void push(int val) {
+        stack[++top] = val;
+    }
+
+    private static int pop() {
+        return stack[top--];
+    }
+
+    private static int getSize() {
+        return top;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+	  final int N = sc.nextInt();
+        for(int ctr=1;ctr<=N;ctr++) {
+           int m =sc.nextInt();
+           if (m/10 == 0) {
+               pop();
+           }
+           else {
+               push(m);
+           }
+        }
+        while (getSize() >= 0) {
+            System.out.print(pop() + " ");
+        }
+    }
+}
+/*
+The program must accept N integers as input. If the integer M (in N integers) is not a multiple of 3, then the program must push the integer M to the stack. 
+Else the program must pop three integers from the stack. Finally, the program must print the integer(s) in the stack (Last In First Out order).
+*/
+import java.util.*;
+
+public class Hello {
+
+    static int top = -1, MAX = 1000;
+    static int stack[] = new int[MAX];
+
+    private static void push(int val) {
+        stack[++top] = val;
+    }
+
+    private static int pop() {
+        return stack[top--];
+    }
+
+    private static int getSize() {
+        return top;
+    }
+
+    public static void main(String[] args) {
+       Scanner sc = new Scanner(System.in);
+
+       final int N = sc.nextInt();
+       for(int ctr=1;ctr<=N;ctr++) {
+           int m = sc.nextInt();
+           if (m%3 != 0) {
+               push(m);
+           }
+           else {
+               for(int ctr2=1;ctr2<=3;ctr2++) {
+                   pop();
+               }
+           }
+       }
+       while (getSize() >= 0) {
+            System.out.print(pop() + " ");
+        }
+    }
+}
+
+/*
+The program must accept N integers as the input. For each integer M (in N integers), if M is a multiple of 3 then the program must pop three integers from the stack and then 
+print the integer at the top of the stack. Else the program must push the integer M into the stack.
+*/
+import java.util.*;
+
+public class Hello {
+
+    static int top = -1, MAX = 1000;
+    static int stack[] = new int[MAX];
+
+    private static void push(int val) {
+        stack[++top] = val;
+    }
+
+    private static int pop() {
+        return stack[top--];
+    }
+
+    private static int peek() {
+        return stack[top];
+    }
+
+    public static void main(String[] args) {
+       Scanner sc = new Scanner(System.in);
+       final int N = sc.nextInt();
+       for(int ctr=1;ctr<=N;ctr++) {
+           int m = sc.nextInt();
+           if (m%3==0) {
+               for(int ctr2=1;ctr2<=3;ctr2++) {
+                   pop();
+               }
+               System.out.print(peek()+" ");
+           }
+           else {
+               push(m);
+           }
+       }
+    }
+}
+
+/*
+The program must accept N integers as the input. If the unit digit of the integer M (in N integers) is 0, then the program must push the integer M to the stack. 
+Else the program must pop X (unit digit of the integer M) integer(s) from the stack. Finally, the program must print the integer(s) in the stack (in Last In First Out order).
+*/
+import java.util.*;
+
+public class Hello {
+
+    static int top = -1, MAX = 1000;
+    static int stack[] = new int[MAX];
+
+    private static void push(int val) {
+        stack[++top] = val;
+    }
+
+    private static int pop() {
+        return stack[top--];
+    }
+
+    private static int getSize() {
+        return top;
+    }
+
+    public static void main(String[] args) {
+       Scanner sc = new Scanner(System.in);
+       final int N = sc.nextInt();
+       for(int ctr=1;ctr<=N;ctr++) {
+           int m = sc.nextInt();
+           int x = m%10;
+           if (x==0) {
+               push(m);
+           }
+           else {
+               while(x-- > 0) {
+                   pop();
+               }
+           }
+       }
+       while (getSize() >= 0) {
+            System.out.print(pop() + " ");
+        }
+    }
+}
+
+/*
+In a bookstore, N books (each book has an id) are arranged by the shopkeeper. The ids of the books are passed as input to the program. 
+The program must print the book ids in reverse order.
+*/
+import java.util.*;
+class Book {
+    int id;
+    Book next = null;
+    public Book(int id) {
+        this.id = id;
+    }
+}
+class SinglyLinkedList {
+    Book head = null, tail = null;
+    void push(Book book) {
+        if (head == null) {
+            head = tail = book;
+        }
+        else {
+            tail.next = book;
+            tail = book;
+        }
+    }
+    Book pop() {
+        Book temp = tail;
+        if (head == tail) {
+            head=tail=null;
+            return temp;
+        }
+        Book node = head;
+        while(node.next != tail) {
+            node = node.next;
+        }
+        node.next = null;
+        tail = node;
+        return temp;
+    }
+}
+class Hello {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N, counter;
+        N = sc.nextInt();
+        SinglyLinkedList sll = new SinglyLinkedList();
+        for (counter = 1; counter <= N; counter++) {
+            sll.push(new Book(sc.nextInt()));
+        }
+        for (counter = 1; counter <= N; counter++) {
+            Book b = sll.pop();
+            System.out.print(b.id + " ");
+        }
+    }
+}

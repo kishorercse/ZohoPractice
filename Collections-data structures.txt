@@ -1,0 +1,75 @@
+import java.util.*;
+public class DS {
+	public static void main(String argsp[]) {
+		Stack<Integer> a = new Stack<>(); //extends vector class
+		//a.pop(); 
+		a.push(1);
+		a.push(5);
+		a.push(21);
+		a.push(55);
+		System.out.println(a);
+		System.out.println(a.pop()); // returns removed element
+									 // Throws EmptyStackException if stack is empty
+		System.out.println(a);
+		System.out.println(a.empty());
+		System.out.println(a.search(21)); //returns element's position from top of stack if present else returns -1
+		
+		
+		Queue<Integer> q = new LinkedList<>();
+		q.add(1); // adds 1 as tail/last element 
+		q.add(5);
+		q.add(10);
+		q.add(12);
+		q.add(15);
+		System.out.println(q);
+		System.out.println(q.remove()); // Removes head/first element
+		System.out.println(q.peek()); // returns head of queue
+		System.out.println(q.size()); // returns size of queue
+		
+		// Queue<Integer> pq = new PriorityQueue<>(Comparator.reverseOrder()); // Min heap
+		Queue<Integer> pq = new PriorityQueue<>(Comparator.reverseOrder()); // Max heap
+		pq.add(2);
+		pq.add(21);
+		pq.add(10);
+		pq.add(100);
+		pq.add(52);
+		System.out.println(pq.peek()); // returns head
+		
+		//Iterating without removing - order is different
+		System.out.println(pq);
+		Iterator it = pq.iterator();
+		while(it.hasNext()) {
+			System.out.print(it.next()+" ");
+		}
+		System.out.println();
+		
+		//Iterating while removing - in sorted order
+		while(!pq.isEmpty()) {
+			System.out.print(pq.poll()+" "); // removes and returns head
+		}
+		System.out.println();
+		 
+		
+		ArrayDeque<Integer> deque = new ArrayDeque<>();
+		deque.add(5); // adds at end/back
+		deque.addFirst(4);
+		deque.addLast(6);
+		deque.addFirst(3);
+		deque.add(7);
+		deque.addLast(8);
+		System.out.println(deque.size());
+		System.out.println(deque);
+		System.out.println(deque.getFirst());
+		System.out.println(deque.getLast());
+		System.out.println(deque.poll()+" "+deque.pop()+" "+deque.pollFirst()); //removes & returns first/front element
+		System.out.println(deque.pollLast()); // removes & returns last/back element
+		
+		//Reverse iteration
+		it=deque.descendingIterator();
+		while(it.hasNext()) {
+			System.out.print(it.next()+" ");
+		}
+		System.out.println();
+		
+	}
+}

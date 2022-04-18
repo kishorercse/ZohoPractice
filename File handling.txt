@@ -1,0 +1,42 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+public class FileHandling {
+	public static void main(String args[]) {
+		
+		try {
+			File obj = new File("C:\\Users\\Kishore\\Desktop\\sample.txt");
+			if (obj.createNewFile()) {
+				System.out.println("File created");
+			}
+			System.out.println("Created new file");
+			FileWriter writer = new FileWriter("C:\\\\Users\\\\Kishore\\\\Desktop\\\\sample.txt");
+			writer.write("This is a java file handling test file\n");
+			writer.write("Second line");
+			writer.close();
+			Scanner reader = new Scanner(obj);
+			while(reader.hasNext()) {
+				System.out.println(reader.nextLine());
+			}
+			reader.close();
+			System.out.println(obj.getName());
+			System.out.println(obj.getPath());
+			System.out.println(obj.exists());
+			System.out.println(obj.getAbsolutePath());
+			System.out.println(obj.length());
+			System.out.println(obj.isFile());
+			if (obj.delete()) {
+				System.out.println("File deleted");
+			}
+		}
+		catch(FileNotFoundException e) {
+			System.out.print(e.getMessage());;
+		}
+		catch(IOException e) {
+			System.out.println(e.getMessage());
+		}
+		
+	}
+}

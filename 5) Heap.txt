@@ -1,0 +1,128 @@
+/*
+An array of N integers is passed as input. Fill in the missing lines of code to implement the method buildMaxHeap to build a max heap and print the elements in descending order using 
+heap sort. The left and right child of an element at index i is obtained from the index (2*i) and (2*i+1) respectively.
+
+IMPORTANT: Do not define the class MaxHeap as it is already defined.
+In the class MaxHeap, SIZE represents the size of the heap and heapArr represents an array containing the elements in the heap. The heap is built on heapArr starting from index 1.
+
+*/
+import java.util.*;
+
+class Hello {
+
+    public static void buildMaxHeap(MaxHeap maxHeap, int curIndex) {
+       int left = 2*curIndex, right = 2*curIndex+1, maxIndex=curIndex;
+       if (left<=maxHeap.SIZE && maxHeap.heapArr[left]>maxHeap.heapArr[maxIndex]) {
+          maxIndex=left;
+       }
+       if (right<=maxHeap.SIZE && maxHeap.heapArr[right]>maxHeap.heapArr[maxIndex]) {
+          maxIndex=right;
+       }
+       if (maxIndex != curIndex) {
+          int temp = maxHeap.heapArr[maxIndex];
+          maxHeap.heapArr[maxIndex] = maxHeap.heapArr[curIndex];
+          maxHeap.heapArr[curIndex] = temp;
+        
+          buildMaxHeap(maxHeap, maxIndex);
+       }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        MaxHeap maxHeap = new MaxHeap(sc.nextInt());
+
+        for (int index = 1; index <= maxHeap.SIZE; index++) {
+            maxHeap.heapArr[index] = sc.nextInt();
+        }
+
+        for (int index = maxHeap.SIZE / 2; index >= 1; index--) {
+            buildMaxHeap(maxHeap, index);
+        }
+
+        while (maxHeap.SIZE >= 1) {
+            System.out.print(maxHeap.extractMax() + " ");
+        }
+    }
+
+}
+/*
+An array of N integers is passed as input. The program must build a max heap and print the elements in descending order using heap sort. 
+Please fill in the missing lines of code to implement the method extractMax. The left and right child of an element at index i is obtained from the index (2*i) and (2*i+1) respectively.
+
+IMPORTANT: Do not define the class MaxHeap as it is already defined.
+In the class MaxHeap, SIZE represents the size of the heap and heapArr represents an array containing the elements in the heap. The heap is built on heapArr starting from index 1.
+
+*/
+import java.util.*;
+
+class Hello {
+    private static int extractMax(MaxHeap maxHeap) {
+        int popped=maxHeap.heapArr[1];
+        maxHeap.heapArr[1]=maxHeap.heapArr[maxHeap.SIZE--];
+        maxHeap.buildMaxHeap(1);
+        return popped;
+    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        MaxHeap maxHeap = new MaxHeap(sc.nextInt());
+
+        for (int index = 1; index <= maxHeap.SIZE; index++) {
+            maxHeap.heapArr[index] = sc.nextInt();
+        }
+
+        for (int index = maxHeap.SIZE / 2; index >= 1; index--) {
+            maxHeap.buildMaxHeap(index);
+        }
+
+        while (maxHeap.SIZE >= 1) {
+            System.out.print(extractMax(maxHeap) + " ");
+        }
+    }
+}
+
+/*
+*/
+import java.util.*;
+
+class Hello {
+    public static void buildMinHeap(MinHeap minHeap, int curIndex) {
+        int left=2*curIndex, right=2*curIndex+1, minIndex=curIndex;
+        if (left<=minHeap.SIZE && minHeap.heapArr[left] < minHeap.heapArr[minIndex]) {
+            minIndex = left;
+        }
+        if (right<=minHeap.SIZE && minHeap.heapArr[right] < minHeap.heapArr[minIndex]) {
+            minIndex = right;
+        }
+        if (minIndex != curIndex) {
+            swap(minHeap.heapArr, curIndex, minIndex);
+            buildMinHeap(minHeap, minIndex);
+        }
+    }
+    
+    private static void swap(int[] arr, int x, int y) {
+        int temp = arr[x];
+        arr[x] = arr[y];
+        arr[y] = temp;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        MinHeap minHeap = new MinHeap(sc.nextInt());
+
+        for (int index = 1; index <= minHeap.SIZE; index++) {
+            minHeap.heapArr[index] = sc.nextInt();
+        }
+
+        for (int index = minHeap.SIZE / 2; index >= 1; index--) {
+            buildMinHeap(minHeap, index);
+        }
+
+        while (minHeap.SIZE >= 1) {
+            System.out.print(minHeap.extractMin() + " ");
+        }
+    }
+}
+
